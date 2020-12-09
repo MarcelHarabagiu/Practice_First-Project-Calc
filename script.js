@@ -76,14 +76,6 @@ var clickHandlerOperators = (event) => {
     }
   }
 }
-var lastNumber;
-var lastOperator;
-
-var operators = [...document.getElementsByClassName('operator')];
-operators.forEach(operator => {
-  operator.addEventListener('click', clickHandlerOperators);
-});
-
 // click handlers for the numbers
 var clickHandlerNumbers = (event) => {
   var numberId = event.target.id;
@@ -101,7 +93,18 @@ var clickHandlerNumbers = (event) => {
     }
   }
 }
+
+//history
+var lastNumber;
+var lastOperator;
+
+var operators = [...document.getElementsByClassName('operator')];
 var numbers = [ ...document.getElementsByClassName('number')];
+
+
+operators.forEach(operator => {
+  operator.addEventListener('click', clickHandlerOperators);
+});
 numbers.forEach(number => {
   number.addEventListener('click', clickHandlerNumbers)
 });

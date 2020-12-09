@@ -94,7 +94,7 @@ var clickHandlerNumbers = (event) => {
   }
 }
 
-//history of selectors
+//history
 var lastNumber;
 var lastOperator;
 

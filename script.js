@@ -46,6 +46,9 @@ var clickHandlerOperators = (event) => {
   if (operatorId == 'clear') {
     printHistory('');
     printOutput('');
+    lastNumer = undefined;
+    lastOperator = undefined;
+    recentNumber = undefined;
   }
   if (operatorId=='backspace') {
     var output=reversNumberFormat(getOutput()).toString();
@@ -66,10 +69,35 @@ var clickHandlerOperators = (event) => {
         printOutput('');
       }
       if (operatorId === '+') {
-        // handle +
+        lastNumber = output;
+        lastOperator = operatorId;
+        printOutput('');
       }
-      if (operatorId=='=') {
-        var result = eval(history);
+      if (operatorId === '-') {
+        lastNumber = output;
+        lastOperator = operatorId;
+        printOutput('');
+      }
+      if (operatorId === '/') {
+        lastNumber = output;
+        lastOperator = operatorId;
+        printOutput('');
+      }
+      if (operatorId === '=') {
+        // var result = eval(history);
+        var result = 0;
+        if (lastOperator === '*') {
+          result = lastNumber * recentNumber;
+        }
+        if (lastOperator === '+') {
+          result = lastNumber + recentNumber; // 82 + '37' = '8237'
+        }
+        if (lastOperator === '-') {
+          result = lastNumber - recentNumber;
+        }
+        if (lastOperator === '/') {
+          result = lastNumber / recentNumber;
+        }
         printOutput(result);
         printHistory('');
       }
@@ -79,24 +107,22 @@ var clickHandlerOperators = (event) => {
 // click handlers for the numbers
 var clickHandlerNumbers = (event) => {
   var numberId = event.target.id;
-  var output = reversNumberFormat (getOutput())
+  var output = getOutput();
 
-  if (!isNaN(lastNumber) && lastOperator) { // and
-    if (lastOperator === '*') {
-      var result = lastNumber * Number(numberId);
-      printOutput(result);
+  if (output !== NaN){//if output is a number 
+    if (!isNaN(lastNumber) && lastOperator) { // and
+      recentNumber = Number(output + numberId);
     }
-  } else {
-    if (output !== NaN){//if output is a number 
-      output = output + numberId;
-      printOutput(output);
-    }
+    output = output + numberId;
+    printOutput(output);
   }
 }
 
-//history
-var lastNumber;
-var lastOperator;
+  
+//history 12 * 34
+var lastNumber; // 12
+var lastOperator; // *
+var recentNumber; // 34
 
 var operators = [...document.getElementsByClassName('operator')];
 var numbers = [ ...document.getElementsByClassName('number')];
@@ -107,15 +133,7 @@ operators.forEach(operator => {
 });
 numbers.forEach(number => {
   number.addEventListener('click', clickHandlerNumbers)
-});
-
-
-
-
-
-
-
-
+});  
 
 
 

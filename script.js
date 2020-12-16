@@ -63,22 +63,8 @@ var clickHandlerOperators = (event) => {
     if (output != '') {
       output=reversNumberFormat(output);
       history=history+output;
-      if (operatorId === '*') {
-        lastNumber = output;
-        lastOperator = operatorId;
-        printOutput('');
-      }
-      if (operatorId === '+') {
-        lastNumber = output;
-        lastOperator = operatorId;
-        printOutput('');
-      }
-      if (operatorId === '-') {
-        lastNumber = output;
-        lastOperator = operatorId;
-        printOutput('');
-      }
-      if (operatorId === '/') {
+      let operators = ['*', '+', '-', '/'];
+      if (operators.contains(operatorId)) {
         lastNumber = output;
         lastOperator = operatorId;
         printOutput('');

@@ -42,43 +42,34 @@ I = edit at beginning of line
 // click handlers for the operators
 var clickHandlerOperators = (event) => {
   var operatorId = event.target.id;
-  if (operatorId=='backspace') {
-    var output=reversNumberFormat(getOutput()).toString();
-    if (output) { //if output has a value
-      output=output.substr(0,output.length-1)
-      printOutput(output);
+  var output = getOutput();
+  var history = getHistory();
+  if (output != '') {
+    output=reversNumberFormat(output);
+    history=history+output;
+    let operators = ['*', '+', '-', '/'];
+    if (operators.contains(operatorId)) {
+      lastNumber = output;
+      lastOperator = operatorId;
+      printOutput('');
     }
-  }
-  else {
-    var output = getOutput();
-    var history = getHistory();
-    if (output != '') {
-      output=reversNumberFormat(output);
-      history=history+output;
-      let operators = ['*', '+', '-', '/'];
-      if (operators.contains(operatorId)) {
-        lastNumber = output;
-        lastOperator = operatorId;
-        printOutput('');
+    if (operatorId === '=') {
+      // var result = eval(history);
+      var result = 0;
+      if (lastOperator === '*') {
+        result = lastNumber * recentNumber;
       }
-      if (operatorId === '=') {
-        // var result = eval(history);
-        var result = 0;
-        if (lastOperator === '*') {
-          result = lastNumber * recentNumber;
-        }
-        if (lastOperator === '+') {
-          result = lastNumber + recentNumber; // 82 + '37' = '8237'
-        }
-        if (lastOperator === '-') {
-          result = lastNumber - recentNumber;
-        }
-        if (lastOperator === '/') {
-          result = lastNumber / recentNumber;
-        }
-        printOutput(result);
-        printHistory('');
+      if (lastOperator === '+') {
+        result = lastNumber + recentNumber; // 82 + '37' = '8237'
       }
+      if (lastOperator === '-') {
+        result = lastNumber - recentNumber;
+      }
+      if (lastOperator === '/') {
+        result = lastNumber / recentNumber;
+      }
+      printOutput(result);
+      printHistory('');
     }
   }
 }
@@ -102,7 +93,11 @@ var clickHandlerOperatorClear = () => {
   lastOperator = undefined;
   recentNumber = undefined;
 }
-
+var clickHandlerOperatorBackspace = () => {
+  var output = getOutput();
+  output = output.substr(0, output.length - 1);
+  printOutput(output);
+}
   
 //history 12 * 34
 var lastNumber; // 12
@@ -112,8 +107,10 @@ var recentNumber; // 34
 var operators = [...document.getElementsByClassName('operator')];
 var numbers = [ ...document.getElementsByClassName('number')];
 var operatorClear = document.querySelector('.operatorClear');
+var operatorBackspace = document.querySelector('.operatorBackspace');
 
 operatorClear.addEventListener('click', clickHandlerOperatorClear)
+operatorBackspace.addEventListener('click', clickHandlerOperatorBackspace)
 operators.forEach(operator => {
   operator.addEventListener('click', clickHandlerOperators);
 });

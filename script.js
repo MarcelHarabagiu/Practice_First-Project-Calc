@@ -42,14 +42,6 @@ I = edit at beginning of line
 // click handlers for the operators
 var clickHandlerOperators = (event) => {
   var operatorId = event.target.id;
-  // alert ('the operator clicked:'+operatorId);
-  if (operatorId == 'clear') {
-    printHistory('');
-    printOutput('');
-    lastNumer = undefined;
-    lastOperator = undefined;
-    recentNumber = undefined;
-  }
   if (operatorId=='backspace') {
     var output=reversNumberFormat(getOutput()).toString();
     if (output) { //if output has a value
@@ -103,6 +95,13 @@ var clickHandlerNumbers = (event) => {
     printOutput(output);
   }
 }
+var clickHandlerOperatorClear = () => {
+  printHistory('');
+  printOutput('');
+  lastNumer = undefined;
+  lastOperator = undefined;
+  recentNumber = undefined;
+}
 
   
 //history 12 * 34
@@ -112,8 +111,9 @@ var recentNumber; // 34
 
 var operators = [...document.getElementsByClassName('operator')];
 var numbers = [ ...document.getElementsByClassName('number')];
+var operatorClear = document.querySelector('.operatorClear');
 
-
+operatorClear.addEventListener('click', clickHandlerOperatorClear)
 operators.forEach(operator => {
   operator.addEventListener('click', clickHandlerOperators);
 });

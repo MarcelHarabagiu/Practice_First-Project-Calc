@@ -41,36 +41,15 @@ I = edit at beginning of line
 
 // click handlers for the operators
 var clickHandlerOperators = (event) => {
-  var operatorId = event.target.id;
   var output = getOutput();
   var history = getHistory();
-  if (output != '') {
-    output=reversNumberFormat(output);
-    history=history+output;
-    let operators = ['*', '+', '-', '/'];
-    if (operators.contains(operatorId)) {
-      lastNumber = output;
-      lastOperator = operatorId;
-      printOutput('');
-    }
-    if (operatorId === '=') {
-      // var result = eval(history);
-      var result = 0;
-      if (lastOperator === '*') {
-        result = lastNumber * recentNumber;
-      }
-      if (lastOperator === '+') {
-        result = lastNumber + recentNumber; // 82 + '37' = '8237'
-      }
-      if (lastOperator === '-') {
-        result = lastNumber - recentNumber;
-      }
-      if (lastOperator === '/') {
-        result = lastNumber / recentNumber;
-      }
-      printOutput(result);
-      printHistory('');
-    }
+
+  if (output !== '') {
+    output = reversNumberFormat(output);
+    history = history + output;
+    lastNumber = output;
+    lastOperator = event.target.id;
+    printOutput('');
   }
 }
 // click handlers for the numbers
@@ -98,6 +77,24 @@ var clickHandlerOperatorBackspace = () => {
   output = output.substr(0, output.length - 1);
   printOutput(output);
 }
+var clickHandlerOperatorEquals = () => {
+  var result = 0;
+  if (lastOperator === '*') {
+    result = lastNumber * recentNumber;
+  }
+  if (lastOperator === '+') {
+    result = lastNumber + recentNumber; // 82 + '37' = '8237'
+  }
+  if (lastOperator === '-') {
+    result = lastNumber - recentNumber;
+  }
+  if (lastOperator === '/') {
+    result = lastNumber / recentNumber;
+  }
+  printOutput(result);
+  printHistory('');
+}
+
   
 //history 12 * 34
 var lastNumber; // 12
@@ -108,9 +105,11 @@ var operators = [...document.getElementsByClassName('operator')];
 var numbers = [ ...document.getElementsByClassName('number')];
 var operatorClear = document.querySelector('.operatorClear');
 var operatorBackspace = document.querySelector('.operatorBackspace');
+var operatorEquals = document.querySelector('.operatorEquals');
 
 operatorClear.addEventListener('click', clickHandlerOperatorClear)
 operatorBackspace.addEventListener('click', clickHandlerOperatorBackspace)
+operatorEquals.addEventListener('click', clickHandlerOperatorEquals)
 operators.forEach(operator => {
   operator.addEventListener('click', clickHandlerOperators);
 });

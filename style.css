@@ -49,7 +49,7 @@ body {
   height: 400px;
 }
 
-.operator, .number, .empty{
+.calculatorButton{
   width: 40px;
   height: 40px;
   margin: 15px;
@@ -62,13 +62,13 @@ body {
 .number, .empty{
   background-color: #eaedef;
 }
-.number, .operator{
+.calculatorButton{
   cursor: pointer;
 }
-.number:active, .operator:active {
+.calculatorButton:active {
   font-size: 13px;
 }
-.operator:focus, .number:focus, .empty:focus{
+.calculatorButton:focus{
   outline: 0;
 }
 button:nth-child(4) {
